@@ -5,7 +5,7 @@ const {
   hasOwn,
   isNonEmptyString,
   isUuid,
-  normalizeDateTime,
+  normalizeDate,
   normalizeNullableString,
 } = require("../../common/validation");
 
@@ -100,9 +100,9 @@ function validateTaskPayload(body = {}, { partial = false } = {}) {
     if (body.due_date === null) {
       payload.due_date = null;
     } else {
-      const dueDate = normalizeDateTime(body.due_date);
+      const dueDate = normalizeDate(body.due_date);
       if (!dueDate) {
-        fields.due_date = "must be a valid date/time or null";
+        fields.due_date = "must be a valid date (YYYY-MM-DD) or null";
       } else {
         payload.due_date = dueDate;
       }

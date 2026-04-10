@@ -2,6 +2,7 @@ const { validationError } = require("../errors/app-error");
 
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const DATE_RE = /^\d{4}-\d{2}-\d{2}$/;
 
 const TASK_STATUSES = ["todo", "in_progress", "done"];
 const TASK_PRIORITIES = ["low", "medium", "high"];
@@ -42,7 +43,7 @@ function normalizeNullableString(value, fieldName) {
   return value;
 }
 
-function normalizeDateTime(value) {
+function normalizeDate(value) {
   if (typeof value !== "string") {
     return null;
   }
@@ -52,12 +53,16 @@ function normalizeDateTime(value) {
     return null;
   }
 
-  const parsed = new Date(trimmed);
+  if (!DATE_RE.test(trimmed)) {
+    return null;
+  }
+
+  const parsed = new Date(`${trimmed}T00:00:00.000Z`);
   if (Number.isNaN(parsed.getTime())) {
     return null;
   }
 
-  return parsed.toISOString();
+  return trimmed;
 }
 
 module.exports = {
@@ -69,5 +74,5 @@ module.exports = {
   isUuid,
   assertUuid,
   normalizeNullableString,
-  normalizeDateTime,
+  normalizeDate,
 };

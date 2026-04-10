@@ -9,7 +9,7 @@ import {
   fetchUsers,
   updateTask,
 } from '../api'
-import { toApiDateTime, toDateTimeLocalValue } from '../date'
+import { toApiDate, toDateInputValue } from '../date'
 import { Project, Task, TaskPriority, TaskStatus, User } from '../types'
 import { TaskDraft } from '../components/TaskEditorPanel'
 import { useFormFields } from './useFormFields'
@@ -167,7 +167,7 @@ export function useProjectDetail() {
       status: task.status,
       priority: task.priority,
       assignee_id: task.assignee_id || '',
-      due_date: toDateTimeLocalValue(task.due_date),
+      due_date: toDateInputValue(task.due_date),
     })
     setIsEditorOpen(true)
   }
@@ -196,7 +196,7 @@ export function useProjectDetail() {
       status: draft.value.status,
       priority: draft.value.priority,
       assignee_id: draft.value.assignee_id || null,
-      due_date: toApiDateTime(draft.value.due_date),
+      due_date: toApiDate(draft.value.due_date),
     }
 
     try {

@@ -47,7 +47,7 @@ The original scaffold used Go, but this implementation was written in Node.js to
 - `backend/db/migrations`: schema, seed data, and indexes
 
 Each backend module follows a small repository -> service -> controller -> routes flow so database access, business rules, and HTTP concerns stay separated and readable.
- b
+
 ### Database and migrations
 
 - The schema is defined in SQL, not ORM-generated
@@ -72,7 +72,6 @@ Each backend module follows a small repository -> service -> controller -> route
 
 ### What is intentionally left out
 
-- Automated backend integration tests are not included yet
 - There is no audit log or activity history
 - There is no invite/membership workflow beyond task-based collaboration visibility
 - Pagination is not implemented because the dataset size in this assignment is small
@@ -86,8 +85,8 @@ Each backend module follows a small repository -> service -> controller -> route
 ### Exact startup steps
 
 ```bash
-git clone <your-repo-url>
-cd zomatoassignment
+git clone https://github.com/ateeshkumar/taskflow-Ateesh-Kumar
+cd taskflow-Ateesh-Kumar
 cp .env.example .env
 docker compose up --build
 ```
@@ -122,6 +121,21 @@ docker compose exec backend npm run migrate
 # Roll back the latest migration
 docker compose exec backend npm run migrate:down -- 1
 ```
+
+## Running Integration Tests
+
+Backend integration tests are included and can be run inside the backend container:
+
+```bash
+docker compose exec backend npm run test:integration
+```
+
+Current coverage includes:
+
+- auth registration returns a JWT and stores a hashed password
+- protected routes reject unauthenticated requests with `401`
+- task create/update/list flows preserve `due_date` as a date-only `YYYY-MM-DD` string
+- task delete permissions reject unrelated users with `403`
 
 ## Test Credentials
 
@@ -276,7 +290,7 @@ Response `200`:
       "project_id": "uuid",
       "assignee_id": null,
       "creator_id": "uuid",
-      "due_date": "2026-05-02T13:30:00.000Z",
+      "due_date": "2026-05-02",
       "created_at": "2026-04-10T12:00:00.000Z",
       "updated_at": "2026-04-10T12:00:00.000Z",
       "assignee_name": null,
@@ -357,7 +371,7 @@ Response `200`:
       "project_id": "uuid",
       "assignee_id": "uuid",
       "creator_id": "uuid",
-      "due_date": "2026-04-30T09:00:00.000Z",
+      "due_date": "2026-04-30",
       "created_at": "2026-04-10T12:00:00.000Z",
       "updated_at": "2026-04-10T12:00:00.000Z",
       "assignee_name": "Seed User",
@@ -378,7 +392,7 @@ Request:
   "status": "todo",
   "priority": "high",
   "assignee_id": "uuid",
-  "due_date": "2026-05-15T14:30:00.000Z"
+  "due_date": "2026-05-15"
 }
 ```
 
@@ -394,7 +408,7 @@ Response `201`:
   "project_id": "uuid",
   "assignee_id": "uuid",
   "creator_id": "uuid",
-  "due_date": "2026-05-15T14:30:00.000Z",
+  "due_date": "2026-05-15",
   "created_at": "2026-04-10T12:00:00.000Z",
   "updated_at": "2026-04-10T12:00:00.000Z",
   "assignee_name": "Seed User",
@@ -413,7 +427,7 @@ Request:
   "status": "done",
   "priority": "low",
   "assignee_id": null,
-  "due_date": "2026-05-20T11:15:00.000Z"
+  "due_date": "2026-05-20"
 }
 ```
 
@@ -429,7 +443,7 @@ Response `200`:
   "project_id": "uuid",
   "assignee_id": null,
   "creator_id": "uuid",
-  "due_date": "2026-05-20T11:15:00.000Z",
+  "due_date": "2026-05-20",
   "created_at": "2026-04-10T12:00:00.000Z",
   "updated_at": "2026-04-10T12:05:00.000Z",
   "assignee_name": null,
@@ -486,3 +500,4 @@ Not found:
 - Add richer task board interactions like drag-and-drop between status columns
 - Add activity history and inline toasts for create/edit/delete success states
 - Add stronger end-to-end browser tests around auth persistence and optimistic status updates
+- Expand backend integration coverage beyond the current auth, permissions, and due-date flows

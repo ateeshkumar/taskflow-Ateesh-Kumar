@@ -1,0 +1,6 @@
+ALTER TABLE tasks
+ALTER COLUMN due_date TYPE TIMESTAMPTZ
+USING CASE
+    WHEN due_date IS NULL THEN NULL
+    ELSE due_date::timestamp AT TIME ZONE 'UTC'
+END;

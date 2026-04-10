@@ -9,7 +9,7 @@ const TASK_SELECT_FIELDS = `
   t.project_id,
   t.assignee_id,
   t.creator_id,
-  t.due_date,
+  t.due_date::text AS due_date,
   t.created_at,
   t.updated_at,
   assignee.name AS assignee_name,

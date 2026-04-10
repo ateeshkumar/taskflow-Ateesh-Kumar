@@ -1,5 +1,5 @@
 import TaskEditorPanel from '../components/TaskEditorPanel'
-import { formatExactDateTime } from '../date'
+import { formatDueDate } from '../date'
 import { taskPriorities, taskStatuses, useProjectDetail } from '../hooks/useProjectDetail'
 import { TaskStatus } from '../types'
 import {
@@ -162,7 +162,7 @@ export default function ProjectDetail() {
                   </span>
                   {task.due_date ? (
                     <span className="inline-flex items-center rounded-full bg-slate-200 px-3 py-1 text-sm font-medium text-slate-700 dark:bg-slate-800 dark:text-slate-200">
-                      Due {formatExactDateTime(task.due_date)}
+                      Due {formatDueDate(task.due_date)}
                     </span>
                   ) : null}
                 </div>

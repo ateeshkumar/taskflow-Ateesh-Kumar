@@ -12,6 +12,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY package.json ./package.json
 COPY src ./src
 COPY db ./db
+COPY test ./test
 
 EXPOSE 4000
 CMD ["node", "src/server.js"]

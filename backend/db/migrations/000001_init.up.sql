@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS tasks (
     project_id UUID NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
     assignee_id UUID REFERENCES users(id),
     creator_id UUID NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    due_date TIMESTAMPTZ,
+    due_date DATE,
     created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );

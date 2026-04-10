@@ -1,5 +1,4 @@
 import { type FormEvent } from 'react'
-import { getBrowserTimeZoneLabel } from '../date'
 import { TaskPriority, TaskStatus, User } from '../types'
 import { errorBox, input, label, primaryButton, secondaryButton, select, textarea } from '../ui'
 
@@ -47,8 +46,6 @@ export default function TaskEditorPanel({
     return null
   }
 
-  const timeZoneLabel = getBrowserTimeZoneLabel()
-
   return (
     <div className="fixed inset-0 z-40 flex justify-end bg-slate-950/55" onClick={onClose}>
       <aside
@@ -62,9 +59,6 @@ export default function TaskEditorPanel({
             </h2>
             <p className="mt-1 text-sm text-slate-500 dark:text-slate-400">
               Use the side panel to manage task details without leaving the page.
-            </p>
-            <p className="mt-1 text-xs text-slate-400 dark:text-slate-500">
-              Times are shown in your browser local timezone: {timeZoneLabel}
             </p>
           </div>
           <button
@@ -146,11 +140,10 @@ export default function TaskEditorPanel({
             </label>
 
             <label className={label}>
-              Due date and time
+              Due date
               <input
                 className={input}
-                type="datetime-local"
-                step="60"
+                type="date"
                 value={value.due_date}
                 onChange={(event) => onFieldChange('due_date', event.target.value)}
               />
